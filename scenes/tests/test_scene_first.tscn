@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://x45oie6n6v4h"]
+
+[ext_resource type="PackedScene" uid="uid://dpaovcjntjgsg" path="res://scenes/characters/player/Player.tscn" id="1_154sj"]
+[ext_resource type="PackedScene" uid="uid://bbcto7tykgrxm" path="res://scenes/objects/Tree.tscn" id="2_gvvjn"]
+
+[node name="TestSceneFirst" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_154sj")]
+position = Vector2(12, 12)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Tree" parent="." instance=ExtResource("2_gvvjn")]
+position = Vector2(43, 21)

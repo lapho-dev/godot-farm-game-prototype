@@ -1,0 +1,123 @@
+[gd_scene load_steps=19 format=3 uid="uid://dpaovcjntjgsg"]
+
+[ext_resource type="Script" uid="uid://birfksrvb262r" path="res://scenes/characters/player/player.gd" id="1_c12fh"]
+[ext_resource type="Texture2D" uid="uid://dp0h6cjsrgbcd" path="res://assets/Characters/Basic Charakter Spritesheet.png" id="2_7xy7u"]
+[ext_resource type="PackedScene" uid="uid://7cbc5428u0tu" path="res://scenes/components/interaction/InteractableComponent.tscn" id="2_lxifr"]
+[ext_resource type="PackedScene" uid="uid://dean2cvr05gcn" path="res://scenes/components/AttackComponent.tscn" id="3_lxifr"]
+[ext_resource type="PackedScene" uid="uid://cqpnn5gdsvore" path="res://scenes/components/control/PlayerControlComponent.tscn" id="4_7xy7u"]
+[ext_resource type="PackedScene" uid="uid://bhr7gm1xyuf0s" path="res://scenes/components/control/PlayerMoveControlComponent.tscn" id="6_imd1d"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lxifr"]
+radius = 15.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gin2a"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxifr"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(0, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imd1d"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(48, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k835w"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(96, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lces5"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(144, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhxyj"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(0, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5edqu"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(48, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwjds"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(96, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jevs6"]
+atlas = ExtResource("2_7xy7u")
+region = Rect2(144, 144, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7n8ao"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gin2a")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxifr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imd1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k835w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lces5")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhxyj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5edqu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwjds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jevs6")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pq8s5"]
+radius = 6.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_c12fh")
+
+[node name="InteractableComponent" parent="." instance=ExtResource("2_lxifr")]
+self_pov = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponent"]
+shape = SubResource("CircleShape2D_lxifr")
+debug_color = Color(0.66773766, 0.47988796, 0.48324764, 0.41960785)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7n8ao")
+animation = &"walk_left"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pq8s5")
+
+[node name="AttackComponent" parent="." instance=ExtResource("3_lxifr")]
+
+[node name="PlayerControlComponent" parent="." node_paths=PackedStringArray("interactable_component", "attack_component") instance=ExtResource("4_7xy7u")]
+interactable_component = NodePath("../InteractableComponent")
+attack_component = NodePath("../AttackComponent")
+
+[node name="PlayerMoveControlComponent" parent="." node_paths=PackedStringArray("player") instance=ExtResource("6_imd1d")]
+player = NodePath("..")
+speed = 10.0
